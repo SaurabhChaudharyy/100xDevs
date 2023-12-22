@@ -1,0 +1,57 @@
+const express = require("express");
+const app = express();
+let number = 0;
+
+function userMiddleware(req, res, next) {
+  const username = req.headers.username;
+  const password = req.headers.password;
+  if (username != "saurabh" || password != "password") {
+    res.status(403).json({
+      msg: "username or password is incorrect",
+    });
+  } else {
+    next();
+  }
+}
+function kidneyMiddleware(req, res, next) {
+  const kidneyId = req.query.kidneyId;
+  if (kidneyId != 1 && kidneyId != 2) {
+    res.status(411).json({
+      msg: "kidney ID is not correct",
+    });
+  } else {
+    next();
+  }
+}
+
+function hitsMiddleware(req, res, next) {
+  number++;
+  console.log(number);
+  next();
+}
+
+let initialTime;
+
+function calculateTime(req, res, next) {
+  initialTime = new Date();
+
+  setTimeout(() => {
+    const finalTime = new Date();
+    const timeDiff = finalTime - initialTime;
+    console.log(`Time difference: ${timeDiff} milliseconds`);
+    next();
+  }, 0);
+}
+
+app.get(
+  "/health-checkup",
+  hitsMiddleware,
+  userMiddleware,
+  kidneyMiddleware,
+  calculateTime,
+  function (req, res) {
+    res.send("Your heart is healthy");
+  }
+);
+
+app.listen(3000);
