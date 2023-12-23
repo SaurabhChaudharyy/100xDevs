@@ -8,7 +8,7 @@ const AdminSchema = new mongoose.Schema({
     // Schema definition here
 });
 
-const UserSchema = new mongoose.Schema({
+const UserSchema  = new mongoose.Schema({
     // Schema definition here
 });
 
