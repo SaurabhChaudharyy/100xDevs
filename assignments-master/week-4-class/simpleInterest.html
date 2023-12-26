@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Interest Calculator</title>
+</head>
+<script>
+
+    // function debounce() {
+    //     clearTimeout(timeout);
+    //     timeout = setTimeout(() => {
+    //         simpleInterest()
+    //     }, 1000)
+    // }
+
+    async function simpleInterest() {
+        let pp = document.getElementById("pp").value;
+        let rate = document.getElementById("rate").value;
+        let time = document.getElementById("time").value;
+        const response = await fetch("http://localhost:3000/simpleInterest?pp=" + pp + "&rate=" + rate + "&time=" + time);
+        const si = await response.text();
+        document.getElementById("si").innerHTML = simpleInterest;
+    }
+</script>
+<body>
+<input id="pp" placeholder="Principle Amount" type="text"><br><br>
+<input id="rate" placeholder="Rate" type="text"><br><br>
+<input id="time" placeholder="Time" type="text"><br><br>
+<button onclick="simpleInterest()">Calculate</button>
+<br>
+<div id="si"></div>
+</body>
+</html>

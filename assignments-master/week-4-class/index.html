@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    //Debounce - decrease number of request if the user is interacting with the input
+    let timeout;
+
+    function debounce() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            anotherWay()
+        }, 1000)
+    }
+
+    function calculateSum() {
+        let firstNumber = document.getElementById("firstNumber").value;
+        let secondNumber = document.getElementById("secondNumber").value;
+        // let update = document.getElementById("finalSum");
+        // update.innerHTML = parseInt(firstNumber) + parseInt(secondNumber);
+
+        fetch("http://localhost:3000/sum?a=" + firstNumber + "&b=" + secondNumber).then(function (response) {
+            response.text().then(function (ans) {
+                document.getElementById("finalSum").innerHTML = ans;
+            })
+        })
+    }
+
+    async function anotherWay() {
+        let firstNumber = document.getElementById("firstNumber").value;
+        let secondNumber = document.getElementById("secondNumber").value;
+        const response = await fetch("http://localhost:3000/sum?a=" + firstNumber + "&b=" + secondNumber);
+        const ans = await response.text();
+        document.getElementById("finalSum").innerHTML = ans;
+    }
+</script>
+<body>
+<input id="firstNumber" oninput="debounce()" placeholder="First Number" type="text"><br>
+<input id="secondNumber" oninput="debounce()" placeholder="Second Number" type="text"></input><br>
+<br>
+<div id="finalSum"></div>
+</body>
+</html>
